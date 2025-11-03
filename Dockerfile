@@ -10,7 +10,7 @@ RUN yarn install
 RUN yarn build
 
 # Stage 2: Build backend
-FROM golang:1.21-alpine AS backend-build
+FROM golang:1.23-alpine AS backend-build
 RUN apk add --no-cache make bash
 WORKDIR /app
 
