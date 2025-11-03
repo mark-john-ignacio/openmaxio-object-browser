@@ -11,9 +11,23 @@ WORKDIR /app
 COPY . .
 
 # Build frontend
+# Use Node 20 Alpine to get Corepack support
+FROM node:20-alpine AS frontend-build
+
 WORKDIR /app/web-app
+
+# Copy web-app
+COPY web-app/package.json web-app/yarn.lock ./
+COPY web-app/. .
+
+# Enable Corepack and use Yarn 4
+RUN corepack enable \
+    && corepack prepare yarn@4.4.0 --activate
+
+# Install dependencies and build
 RUN yarn install
 RUN yarn build
+
 
 # Build backend
 WORKDIR /app
