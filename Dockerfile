@@ -4,7 +4,7 @@ WORKDIR /app/web-app
 
 COPY web-app/package.json web-app/yarn.lock web-app/.yarnrc.yml ./
 RUN corepack enable && corepack prepare yarn@4.4.0 --activate
-RUN apk add --no-cache git && yarn install --immutable
+RUN apk add --no-cache git && YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install --check-cache
 
 COPY web-app/ .
 ENV NODE_ENV=production
