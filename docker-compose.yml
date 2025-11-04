@@ -26,12 +26,15 @@ services:
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER:-console}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-consoleconsole}
+      # Public URL MinIO should advertise (behind Coolify/proxy)
+      # e.g., https://s3.example.com
+      MINIO_SERVER_URL: ${MINIO_SERVER_URL:-}
+      # Optional: enable virtual-hosted-style buckets (requires DNS wildcard)
+      # e.g., s3.example.com to support bucket.s3.example.com
+      MINIO_DOMAIN: ${MINIO_DOMAIN:-}
     volumes:
       - minio_data:/data
-    ports:
-      # Optional: expose MinIO S3 and Admin UI externally (Coolify can manage ingress)
-      - "${MINIO_S3_PORT:-9000}:9000"
-      - "${MINIO_CONSOLE_PORT:-9001}:9001"
+    # No host port publishing: rely on internal networking and Coolify routing.
 
 volumes:
   minio_data:
