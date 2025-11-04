@@ -17,7 +17,7 @@ services:
     depends_on:
       - minio
     ports:
-      - "8080:8080"
+      - "${APP_PORT:-8080}:8080"
 
   minio:
     image: minio/minio:latest
@@ -30,8 +30,8 @@ services:
       - minio_data:/data
     ports:
       # Optional: expose MinIO S3 and Admin UI externally (Coolify can manage ingress)
-      - "9000:9000"
-      - "9001:9001"
+      - "${MINIO_S3_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
 
 volumes:
   minio_data:
